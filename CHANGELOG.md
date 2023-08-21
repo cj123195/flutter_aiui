@@ -1,3 +1,7 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Only for Android
+* Speech recognition
+* Semantics understanding
+* Speech synthesis
+* Wakeup
