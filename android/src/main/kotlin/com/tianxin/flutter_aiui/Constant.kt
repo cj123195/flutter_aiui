@@ -17,4 +17,10 @@ object Constant {
     const val ON_EVENT = "onEvent"
 
     const val AGENT_NOT_CREATE = "1001"
+
+    const val INI_FILE_NAME = "vtn.ini"
+    const val BIN_FILE_NAME = "res.bin"
+    const val VTN_FOLDER_NAME = "vtn"
+    const val IVW_FOLDER_NAME = "ivw"
+    const val AIUI_FOLDER_NAME = "AIUI"
 }

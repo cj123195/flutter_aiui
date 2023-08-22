@@ -9,11 +9,15 @@ Flutter plugin that allows you to use iFlytek's AIUI on Android.
 - Speech synthesis
 - Wakeup
 
-### IOS
-Xcode 7,8 has Bitcode enabled by default, and Bitcode requires support from all class libraries that the project relies on. The AIUI SDK currently does not support Bitcode, and developers need to disable this setting. Simply search for Bitcode in `Targets ->Build Settings`, find the corresponding option, and set it to NO. As shown in the following figure:
-<img src="https://aiui.xfyun.cn/doc/assets/img/ios_setting_bitcode.2e7d9abd.png" width="350">
+## Configuration
 
-Add the following keys to your`Info.plist`file, located in`<project root>/ios/Runner/Info.plist`:
+#### IOS
+- Xcode 7,8 has Bitcode enabled by default, and Bitcode requires support from all class libraries that the project relies on. The AIUI SDK currently does not support Bitcode, and developers need to disable this setting. Simply search for Bitcode in `Targets ->Build Settings`, find the corresponding option, and set it to NO. As shown in the following figure:
+
+ <img src="https://aiui.xfyun.cn/doc/assets/img/ios_setting_bitcode.2e7d9abd.png" width="350">
+
+- Add the following keys to your`Info.plist`file, located in`<project root>/ios/Runner/Info.plist`:
+
 ```
 <key>NSMicrophoneUsageDescription</key>
 <string></string>
@@ -25,7 +29,7 @@ Add the following keys to your`Info.plist`file, located in`<project root>/ios/Ru
 <string></string>
 ```
 
-### Android
+#### Android
 
 - Update your minimum SDK version to 24 in android/app/build.gradle.
 ```
@@ -42,12 +46,12 @@ android {
 
 - Add the following permissions to your `AndroidManifest.xml`, located in `<project root>/android/app/src/main/AndroidManifest.xml`
 
-```
-<uses-permission android:name="android.permission.RECORD_AUDIO" />
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-```
+  ```
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  ```
 Note: To avoid confusion during packaging or generating APK, please add the following code to proguard.cfg:
 ```
 -dontoptimize
@@ -66,6 +70,28 @@ Note: To avoid confusion during packaging or generating APK, please add the foll
 
 - Copy the `assets` folder from the resources downloaded from iFlytek's AIUI application platform to `<project root>/android/app/src/main`
 
+> Note
+>
+> Due to the fact that Android 11 no longer allows direct access to `sdcard`, the resource path in 
+> the official configuration file of the Information Technology Branch of the University of Science
+> and Technology will cause the wakeup function to be unusable. Therefore, the current res_path 
+> parameter of ivw is dynamically generated, so if you want to use the wakeup function, please 
+> remove `res_path` from the `vtn.ini` configuration file and the deleted vtn.ini content are as 
+> follows:
+> ```
+> [auth]
+> appid=xxxxxx
+>
+> [cae]
+> #是否开启降噪功能, 0为不开启，其他为开启，默认为开启
+> cae_enable = 1
+> input_audio_unit=2
+>
+> [ivw]
+> #是否开启唤醒功能, 0为不开启，其他为开启，默认为不开启
+> ivw_enable = 1
+> ```
+
 ## Usage
 
 
@@ -74,10 +100,10 @@ Note: To avoid confusion during packaging or generating APK, please add the foll
 To use AIUI functionality, you must first create an AIUI agent.
 ```dart
 final AiuiParams _params = AiuiParams(
-    appId: appId,
-    global: GlobalParams(scene: 'main_box'),
-    speech: SpeechParams(wakeupMode: WakeupMode.vtn),
-  );
+  appId: appId,
+  global: GlobalParams(scene: 'main_box'),
+  speech: SpeechParams(wakeupMode: WakeupMode.vtn),
+);
 await FlutterAiui().initAgent(_params);
 ```
 
@@ -121,7 +147,7 @@ FlutterAiui().writeText('xxxxx');
 
 #### Start tts
 ```dart
-FlutterAiui().startTTS();
+FlutterAiui().startTTS('xxxxxx');
 ```
 
 #### End tts

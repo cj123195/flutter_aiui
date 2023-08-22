@@ -6,9 +6,11 @@ import android.content.res.AssetManager
 import android.util.Log
 import com.iflytek.aiui.*
 import com.tianxin.flutter_aiui.FucUtil.copyAssetFolder
+import com.tianxin.flutter_aiui.FucUtil.getFileRoot
 import io.flutter.plugin.common.MethodChannel
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.ScheduledExecutorService
@@ -37,31 +39,23 @@ class AIUIWrapper(
     // 是否支持唤醒
     private var isWakeUpEnable = false
 
-    /// 是否正在录音
+    // 是否正在录音
     private var mAudioRecording = false
 
-    /// 获取是否使用唤醒功能
+    // 获取是否使用唤醒功能
     private fun getWakeupEnabled(config: JSONObject): Boolean {
         val wakeupMode = config.optJSONObject("speech")?.optString("wakeup_mode")
         return "off" != wakeupMode && null != wakeupMode
     }
 
     /// 处理Ivw资源
-    @SuppressLint("SdCardPath")
     private fun processIvwRes(config: JSONObject): String {
-        val resPath = config.optJSONObject("ivw")?.optString("res_path")
-        var path: String? = null
-        if (resPath != null && resPath.isNotEmpty()) {
-            val index = resPath.indexOf("/vtn")
-            if (index != -1) {
-                path = resPath.substring(0, index)
-            }
-        }
-        if (path == null) {
-            path = "/sdcard/AIUI/ivw"
-            config.optJSONObject("ivw")?.put("res_path", path)
-        }
-        copyAssetFolder(mContext, "ivw", path)
+        val path =
+            getFileRoot(mContext) + File.separator + Constant.AIUI_FOLDER_NAME + File.separator + Constant.IVW_FOLDER_NAME
+        val resPath =
+            path + File.separator + Constant.VTN_FOLDER_NAME + File.separator + Constant.INI_FILE_NAME
+        config.optJSONObject("ivw")?.put("res_path", resPath)
+        copyAssetFolder(mContext, Constant.IVW_FOLDER_NAME, path)
         return config.toString()
     }
 

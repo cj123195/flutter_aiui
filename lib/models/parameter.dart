@@ -411,7 +411,9 @@ class RecorderParams {
 class IvwParams {
   IvwParams({
     this.micType = 'mic1',
-    this.resPath = '/sdcard/AIUI/ivw/vtn/vtn.ini',
+    @Deprecated('由于Android 11文档访问限制导致部分Android 11机型无法使用唤醒功能，现在'
+        'resPath为动态赋值，所以这个参数暂时弃用')
+        this.resPath,
     this.resType = ResType.path,
   });
 
@@ -426,12 +428,14 @@ class IvwParams {
   /// ivw资源文件路径
   ///
   /// 非必要不修改，否则会导致资源识别不到
+  @Deprecated('由于Android 11文档访问限制导致部分Android 11机型无法使用唤醒功能，现在'
+      'resPath为动态赋值，所以这个参数暂时弃用')
   String? resPath;
 
   Map<String, String?> toMap() => {
         AiuiConstant.keyMicType: micType,
         AiuiConstant.keyResType: resType?.name,
-        AiuiConstant.keyResPath: resPath,
+        // AiuiConstant.keyResPath: resPath,
       };
 }
 

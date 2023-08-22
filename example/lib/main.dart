@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aiui/flutter_aiui.dart';
 import 'package:flutter_aiui_example/wave.dart';
 
-const String appId = 'c681badc';
+/// AIUI平台上应用ID
+const String appId = 'xxxxxxx';
 
 void main() {
   runApp(const MyApp());

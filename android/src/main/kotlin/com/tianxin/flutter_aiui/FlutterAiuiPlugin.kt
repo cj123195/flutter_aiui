@@ -107,14 +107,15 @@ class FlutterAiuiPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private fun requestPermissions() {
         try {
-            if (Build.VERSION.SDK_INT >= 23) {
-                ActivityCompat.requestPermissions(
-                    activity, arrayOf(
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ), 0x0010
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.INTERNET
+                )
+                ActivityCompat.requestPermissions(activity, permissions, 0x0010
                 )
             }
         } catch (e: Exception) {
